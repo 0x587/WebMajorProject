@@ -2,7 +2,7 @@ import httpService from "./http";
 
 
 // 引入类型定义
-interface StockPrice {
+export interface StockPrice {
     Code: string;
     Name: string;
     Price: number;

@@ -22,7 +22,7 @@ import api from '@/http/api';
 import { ElMessage } from 'element-plus';
 
 export default defineComponent({
-  name: 'HomeView',
+  name: 'LoginView',
   data() {
     return {
       form: {
@@ -44,7 +44,7 @@ export default defineComponent({
       api.loginUser(this.form.username, this.form.password).then(res => {
         if (res) {
           ElMessage.success('登录成功');
-          this.$store.commit('login', { username: this.form.username, role: 'test' })
+          this.$store.commit('login', { username: this.form.username })
           this.$router.push({ path: '/' });
         } else {
           ElMessage.error('登录失败');
