@@ -1,7 +1,7 @@
 <template>
     <el-row :gutter="20">
         <el-col v-for="stock in stocks" :key="stock.Code" :xs="8" :sm="6" :md="6" :lg="4" :xl="4">
-            <el-card style="margin-bottom: 12px;">
+            <el-card style="margin-bottom: 12px;" @click="toDetail(stock.Code)">
                 <el-descriptions :title="stock.Name" direction="vertical" :column="1" size="small" border>
                     <el-descriptions-item label="股票代码">{{ stock.Code }}</el-descriptions-item>
                     <el-descriptions-item label="当前价格">{{ stock.Price }}</el-descriptions-item>
@@ -38,6 +38,9 @@ export default defineComponent({
         },
         getChangeColor(stock: StockPriceAndHistory) {
             return this.getChange(stock) > 0 ? 'red' : 'green'
+        },
+        toDetail(code: string) {
+            this.$router.push({ name: 'detail', query: { code: code } })
         }
     }
 });
