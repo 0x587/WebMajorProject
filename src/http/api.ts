@@ -8,9 +8,35 @@ export interface StockPrice {
     Price: number;
 }
 
+export interface StockPriceAndHistory {
+    Code: string;
+    Name: string;
+    Price: number;
+    History: number[];
+}
+
 // 封装getMarketPrice接口
-function getMarketPrice(): Promise<StockPrice[]> {
-    return httpService.get<StockPrice[]>('/getMarketPrice');
+function getMarketPrice(): Promise<StockPriceAndHistory[]> {
+    return new Promise((resolve, reject) => {
+        httpService.get<StockPrice[]>('/getMarketPrice').then((response) => {
+            const stockPricePromises = response.map((stock) => {
+                return getStockPrice(stock.Code).then((priceHistory) => {
+                    return {
+                        ...stock,
+                        History: priceHistory,
+                    };
+                });
+            });
+
+            Promise.all(stockPricePromises).then((stockPriceAndHistory) => {
+                resolve(stockPriceAndHistory);
+            }).catch((error) => {
+                reject(error);
+            });
+        }).catch((error) => {
+            reject(error);
+        });
+    })
 }
 
 // 封装getStockPrice接口

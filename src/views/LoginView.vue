@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useStore } from '@/store/store';
+import { store } from '@/store/store';
 import api from '@/http/api';
 import { ElMessage } from 'element-plus';
 
@@ -44,7 +44,7 @@ export default defineComponent({
       api.loginUser(this.form.username, this.form.password).then(res => {
         if (res) {
           ElMessage.success('登录成功');
-          this.$store.commit('login', { username: this.form.username })
+          store.commit('login', { username: this.form.username })
           this.$router.push({ path: '/' });
         } else {
           ElMessage.error('登录失败');

@@ -8,23 +8,17 @@
         <template v-else>
             游客模式
         </template>
-        <el-tabs v-model="curStockMode" class="demo-tabs" @tab-click="handleClick">
+        <el-button @click="refreshStock">刷新</el-button>
+        <el-countdown title="刷新倒计时" format="mm:ss" :value="refreshCountdown" @finish="refreshStock" />
+        <el-tabs v-model="curStockMode" class="demo-tabs">
             <el-tab-pane label="沪市" name="hu">
-                <el-row :gutter="20">
-                    <el-col v-for="stock in HuStock" :key="stock.Code" :span="6">
-                        <el-card style="margin-bottom: 12px;">
-                            <p>{{ stock.Name }}</p>
-                            <p>{{ stock.Price }}</p>
-                            <p>{{ stock.Code }}</p>
-                        </el-card>
-                    </el-col>
-                </el-row>
+                <StockList :stocks="HuStock" />
             </el-tab-pane>
             <el-tab-pane label="深市" name="shen">
-                {{ ShenStock }}
+                <StockList :stocks="ShenStock" />
             </el-tab-pane>
             <el-tab-pane label="创业板" name="chuang">
-                {{ ChuangStock }}
+                <StockList :stocks="ChuangStock" />
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -32,41 +26,54 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import api, { StockPrice } from '@/http/api';
+import api, { StockPriceAndHistory } from '@/http/api';
 import { ElMessage } from 'element-plus';
+import StockList from '@/components/StockList.vue';
 
 
 export default defineComponent({
     name: 'HomeView',
+    components: {
+        StockList
+    },
     data(): {
         curStockMode: string,
-        HuStock: StockPrice[],
-        ShenStock: StockPrice[],
-        ChuangStock: StockPrice[]
+        HuStock: StockPriceAndHistory[],
+        ShenStock: StockPriceAndHistory[],
+        ChuangStock: StockPriceAndHistory[],
+        refreshInterval: number,
+        refreshCountdown: number
     } {
         return {
             curStockMode: 'hu',
             HuStock: [],
             ShenStock: [],
-            ChuangStock: []
+            ChuangStock: [],
+            refreshInterval: 0,
+            refreshCountdown: Date.now() + 5 * 1000
         }
     },
     mounted() {
-        api.getMarketPrice().then(res => {
-            console.log(res);
-            res.forEach(item => {
-                if (item.Code.startsWith('3')) {
-                    this.ShenStock.push(item)
-                } else if (item.Code.startsWith('0')) {
-                    this.ChuangStock.push(item)
-                } else if (item.Code.startsWith('6')) {
-                    this.HuStock.push(item)
-                }
-            })
-        })
+        this.refreshStock()
     },
     methods: {
-
+        refreshStock() {
+            this.refreshCountdown = Date.now() + 5 * 1000
+            api.getMarketPrice().then(res => {
+                this.HuStock = []
+                this.ShenStock = []
+                this.ChuangStock = []
+                res.forEach(item => {
+                    if (item.Code.startsWith('3')) {
+                        this.ShenStock.push(item)
+                    } else if (item.Code.startsWith('0')) {
+                        this.ChuangStock.push(item)
+                    } else if (item.Code.startsWith('6')) {
+                        this.HuStock.push(item)
+                    }
+                })
+            })
+        }
     }
 });
 </script>
