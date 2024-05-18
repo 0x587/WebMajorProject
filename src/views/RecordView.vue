@@ -1,5 +1,5 @@
 <template>
-    <el-button>刷新</el-button>
+    <el-button @click="refresh">刷新</el-button>
     <div>
         <el-table :data="records" style="width: 100%">
             <el-table-column prop="Amount" label="Amount"></el-table-column>

@@ -44,7 +44,7 @@ function getStockPrice(code: string): Promise<number[]> {
     return httpService.get<number[]>(`/getStockPrice?code=${code}`);
 }
 
-interface InventoryItem {
+export interface InventoryItem {
     Code: string;
     Amount: number;
     Total_Cost: number;
