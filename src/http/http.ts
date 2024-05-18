@@ -7,7 +7,7 @@ class HttpService {
     constructor() {
         // 创建axios实例
         this.axiosInstance = axios.create({
-            baseURL: 'https://mock.shawnsiu.space', // 你的API基础URL
+            baseURL: 'http://localhost:12345', // 你的API基础URL
             headers: {
                 'Content-Type': 'application/json',
             },

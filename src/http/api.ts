@@ -56,7 +56,7 @@ function getInventory(username: string): Promise<InventoryItem[]> {
     return httpService.get<InventoryItem[]>(`/getInventory?username=${username}`);
 }
 
-interface TradeRecord {
+export interface TradeRecord {
     Amount: number;
     Code: string;
     Direction: 0 | 1; // 0=买入, 1=卖出
@@ -76,10 +76,10 @@ function getBalance(username: string): Promise<number> {
 }
 
 // 定义交易方向
-type TradeDirection = 'buy' | 'sell';
+export type TradeDirection = 'buy' | 'sell';
 
 // 交易状态枚举
-enum TradeStatus {
+export enum TradeStatus {
     Error = 0,
     EntrustSuccess = 1,
     TradeSuccess = 2,

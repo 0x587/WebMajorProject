@@ -67,7 +67,7 @@ export default defineComponent({
                 code: '',
                 price: 0,
                 amount: 0,
-                dire: ''
+                dire: '' as TradeDirection
             }
         }
     },
@@ -151,7 +151,7 @@ export default defineComponent({
                     }
                 })
             }
-            this.tradeForm.code = 0
+            this.tradeForm.code = ''
             this.tradeForm.price = 0
             this.tradeForm.amount = 0
             this.showTradeDialog = false

@@ -17,6 +17,11 @@ export const store = createStore<State>({
         login(state, obj: { username: string }) {
             state.username = obj.username
         }
+    },
+    getters:{
+        username(state){
+            return state.username
+        }
     }
 })
 
