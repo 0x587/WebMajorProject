@@ -8,7 +8,6 @@
 import api from '@/http/api';
 import { defineComponent } from 'vue';
 import { ECharts, EChartsOption, init } from 'echarts';
-import { resolveRef } from '@vueuse/shared';
 
 export default defineComponent({
     name: 'StockDetail',

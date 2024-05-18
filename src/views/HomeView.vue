@@ -12,13 +12,13 @@
         <el-countdown title="刷新倒计时" format="mm:ss" :value="refreshCountdown" @finish="refreshStock" />
         <el-tabs v-model="curStockMode" class="demo-tabs">
             <el-tab-pane label="沪市" name="hu">
-                <StockList :stocks="HuStock" />
+                <StockList :stocks="HuStock" :username="$store.state.username" />
             </el-tab-pane>
             <el-tab-pane label="深市" name="shen">
-                <StockList :stocks="ShenStock" />
+                <StockList :stocks="ShenStock" :username="$store.state.username" />
             </el-tab-pane>
             <el-tab-pane label="创业板" name="chuang">
-                <StockList :stocks="ChuangStock" />
+                <StockList :stocks="ChuangStock" :username="$store.state.username" />
             </el-tab-pane>
         </el-tabs>
     </div>
